@@ -1,18 +1,27 @@
 package internal
 
 import (
-	img "../pacmanSprite.png"
-	"github.com/hajimehoshi/ebiten/v2")
+	"pacMan/internal/img"
+
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Pacman struct {
-	x, y float64
-	img  []*ebiten.Image
+	X, Y   float64
+	Sprite *ebiten.Image
 }
 
-func newPacman() (*Pacman, error) {
-	const (
-		pacmanLeft = 
-	)
+func NewPacman() (*Pacman, error) {
+	img.CutImage(32, 32, 0, 0)
+	return &Pacman{
+		X:      10,
+		Y:      10,
+		Sprite: ebiten.NewImageFromImage(img.CutImage(32, 32, 0, 0)),
+	}, nil
+}
 
-	return &Pacman{}, nil
+func (p *Pacman) Draw(screen *ebiten.Image) {
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(p.X, p.Y)
+	screen.DrawImage(p.Sprite, op)
 }
