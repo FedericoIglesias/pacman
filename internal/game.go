@@ -2,18 +2,19 @@ package internal
 
 import (
 	"image/color"
+	"pacMan/internal/cartography"
 	"pacMan/internal/character"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Game struct {
-	Pacman *character.Pacman
-	Blinky *character.Blinky
-	Pinky  *character.Pinky
-	Inky   *character.Inky
-	Clyde  *character.Clyde
-
+	Pacman      *character.Pacman
+	Blinky      *character.Blinky
+	Pinky       *character.Pinky
+	Inky        *character.Inky
+	Clyde       *character.Clyde
+	Cartography *cartography.Cartography
 	// Menu   *Menu
 	// Point  *Point
 	// Dot    *Dot
@@ -45,12 +46,18 @@ func NewGame() (*Game, error) {
 		panic(err)
 	}
 
+	Cartography, err := cartography.NewMap()
+	if err != nil {
+		panic(err)
+	}
+
 	g := &Game{
-		Pacman: Pacman,
-		Blinky: Blinky,
-		Pinky:  Pinky,
-		Inky:   Inky,
-		Clyde:  Clyde,
+		Pacman:      Pacman,
+		Blinky:      Blinky,
+		Pinky:       Pinky,
+		Inky:        Inky,
+		Clyde:       Clyde,
+		Cartography: Cartography,
 	}
 	return g, nil
 }
@@ -80,6 +87,7 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0x80, 0xa0, 0xc0, 0xff})
+	g.Cartography.Draw(screen)
 	g.Pacman.Draw(screen)
 	g.Blinky.Draw(screen)
 	g.Pinky.Draw(screen)
