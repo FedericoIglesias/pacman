@@ -2,12 +2,13 @@ package internal
 
 import (
 	"image/color"
+	"pacMan/internal/character"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Game struct {
-	Pacman *Pacman
+	Pacman *character.Pacman
 	// Menu   *Menu
 	// Ghost  *Ghost
 	// Point  *Point
@@ -16,7 +17,7 @@ type Game struct {
 }
 
 func NewGame() (*Game, error) {
-	Pacman, err := NewPacman()
+	Pacman, err := character.NewPacman()
 	if err != nil {
 		panic(err)
 	}

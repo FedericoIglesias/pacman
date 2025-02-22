@@ -1,4 +1,4 @@
-package internal
+package character
 
 import (
 	"pacMan/internal/img"
