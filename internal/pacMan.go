@@ -13,13 +13,13 @@ type Pacman struct {
 
 var (
 	child           = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 43))
-	leftMouth       = ebiten.NewImageFromImage(img.CutImage(13, 12, 3, 4))
-	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(13, 12, 3, 27)) //sizeX 9
-	rightMouth      = ebiten.NewImageFromImage(img.CutImage(13, 12, 23, 3))
-	totalRightMouth = ebiten.NewImageFromImage(img.CutImage(13, 12, 23, 23))
-	upMouth         = ebiten.NewImageFromImage(img.CutImage(12, 13, 44, 3))
+	leftMouth       = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 4))
+	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 27)) //sizeX 9
+	rightMouth      = ebiten.NewImageFromImage(img.CutImage(13, 13, 23, 3))
+	totalRightMouth = ebiten.NewImageFromImage(img.CutImage(13, 13, 23, 23))
+	upMouth         = ebiten.NewImageFromImage(img.CutImage(13, 13, 44, 3))
 	totalUpMouth    = ebiten.NewImageFromImage(img.CutImage(13, 13, 47, 23))
-	downMouth       = ebiten.NewImageFromImage(img.CutImage(12, 13, 63, 3))
+	downMouth       = ebiten.NewImageFromImage(img.CutImage(13, 13, 63, 3))
 	totalDownMouth  = ebiten.NewImageFromImage(img.CutImage(13, 13, 62, 23))
 )
 
