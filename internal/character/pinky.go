@@ -12,14 +12,18 @@ type Pinky struct {
 }
 
 var (
-	PinkyPosUp1    = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 3))
-	PinkyPosUp2    = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 23))
-	PinkyPosDown1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 43))
-	PinkyPosDown2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 63))
-	PinkyPosLeft1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 83))
-	PinkyPosLeft2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 103))
-	PinkyPosRight1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 123))
-	PinkyPosRight2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 143))
+	PinkyPosUp1        = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 3))
+	PinkyPosUp2        = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 23))
+	PinkyPosDown1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 43))
+	PinkyPosDown2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 63))
+	PinkyPosLeft1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 83))
+	PinkyPosLeft2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 103))
+	PinkyPosRight1     = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 123))
+	PinkyPosRight2     = ebiten.NewImageFromImage(img.CutImage(14, 14, 103, 143))
+	FearPinkyPosBlue1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 3))
+	FearPinkyPosBlue2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 23))
+	FearPinkyPosWhite1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 43))
+	FearPinkyPosWhite2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 63))
 )
 
 func NewPinky() (*Pinky, error) {
@@ -39,16 +43,16 @@ func (p *Pinky) Draw(screen *ebiten.Image) {
 
 func (p *Pinky) Update() error {
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
-		p.Sprite = PinkyPosRight2
+		p.Sprite = FearBlinkyPosBlue1
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
-		p.Sprite = PinkyPosUp2
+		p.Sprite = FearBlinkyPosBlue2
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
-		p.Sprite = PinkyPosDown2
+		p.Sprite = FearBlinkyPosWhite1
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
-		p.Sprite = PinkyPosLeft2
+		p.Sprite = FearBlinkyPosWhite2
 	}
 	return nil
 }

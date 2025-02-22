@@ -12,14 +12,18 @@ type Inky struct {
 }
 
 var (
-	InkyPosUp1    = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 3))
-	InkyPosUp2    = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 23))
-	InkyPosDown1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 43))
-	InkyPosDown2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 63))
-	InkyPosLeft1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 83))
-	InkyPosLeft2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 103))
-	InkyPosRight1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 123))
-	InkyPosRight2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 143))
+	InkyPosUp1        = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 3))
+	InkyPosUp2        = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 23))
+	InkyPosDown1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 43))
+	InkyPosDown2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 63))
+	InkyPosLeft1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 83))
+	InkyPosLeft2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 103))
+	InkyPosRight1     = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 123))
+	InkyPosRight2     = ebiten.NewImageFromImage(img.CutImage(14, 14, 123, 143))
+	FearInkyPosBlue1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 3))
+	FearInkyPosBlue2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 23))
+	FearInkyPosWhite1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 43))
+	FearInkyPosWhite2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 63))
 )
 
 func NewInky() (*Inky, error) {

@@ -13,6 +13,7 @@ type Game struct {
 	Pinky  *character.Pinky
 	Inky   *character.Inky
 	Clyde  *character.Clyde
+
 	// Menu   *Menu
 	// Point  *Point
 	// Dot    *Dot

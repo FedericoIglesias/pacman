@@ -14,14 +14,18 @@ type Blinky struct {
 // Blinky (red), Pinky (pink), Inky (cyan), and Clyde (orange)
 
 var (
-	BlinkyPosUp1    = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 3))
-	BlinkyPosUp2    = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 23))
-	BlinkyPosDown1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 43))
-	BlinkyPosDown2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 63))
-	BlinkyPosLeft1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 83))
-	BlinkyPosLeft2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 103))
-	BlinkyPosRight1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 123))
-	BlinkyPosRight2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 143))
+	BlinkyPosUp1        = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 3))
+	BlinkyPosUp2        = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 23))
+	BlinkyPosDown1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 43))
+	BlinkyPosDown2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 63))
+	BlinkyPosLeft1      = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 83))
+	BlinkyPosLeft2      = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 103))
+	BlinkyPosRight1     = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 123))
+	BlinkyPosRight2     = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 143))
+	FearBlinkyPosBlue1  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 3))
+	FearBlinkyPosBlue2  = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 23))
+	FearBlinkyPosWhite1 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 43))
+	FearBlinkyPosWhite2 = ebiten.NewImageFromImage(img.CutImage(14, 14, 163, 63))
 )
 
 func NewBlinky() (*Blinky, error) {
