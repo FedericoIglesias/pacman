@@ -12,6 +12,7 @@ type Game struct {
 	Blinky *character.Blinky
 	Pinky  *character.Pinky
 	Inky   *character.Inky
+	Clyde  *character.Clyde
 	// Menu   *Menu
 	// Point  *Point
 	// Dot    *Dot
@@ -38,11 +39,17 @@ func NewGame() (*Game, error) {
 		panic(err)
 	}
 
+	Clyde, err := character.NewClyde()
+	if err != nil {
+		panic(err)
+	}
+
 	g := &Game{
 		Pacman: Pacman,
 		Blinky: Blinky,
 		Pinky:  Pinky,
 		Inky:   Inky,
+		Clyde:  Clyde,
 	}
 	return g, nil
 }
@@ -63,6 +70,10 @@ func (g *Game) Update() error {
 		return err
 	}
 
+	if err := g.Clyde.Update(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -72,6 +83,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.Blinky.Draw(screen)
 	g.Pinky.Draw(screen)
 	g.Inky.Draw(screen)
+	g.Clyde.Draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
