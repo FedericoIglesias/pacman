@@ -1,6 +1,6 @@
 package global
 
 const (
-	screenWidth  = 800
-	screenHeight = 800
+	SCREEN_WIDTH  = 600
+	SCREEN_HEIGHT = 600
 )
