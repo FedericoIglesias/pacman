@@ -27,6 +27,9 @@ func NewGame() (*Game, error) {
 }
 
 func (g *Game) Update() error {
+	if err := g.Pacman.Update(); err != nil {
+		return err
+	}
 	return nil
 }
 

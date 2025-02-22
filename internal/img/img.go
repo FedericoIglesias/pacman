@@ -12,7 +12,7 @@ type SubImager interface {
 }
 
 func CutImage(sizeY, sizeX, posY, posX int) image.Image {
-	file, err := os.Open("internal/img/pacmanSprite.png")
+	file, err := os.Open("internal/img/spritesheet.jpg")
 	if err != nil {
 		panic(err)
 	}
