@@ -10,6 +10,7 @@ import (
 type Game struct {
 	Pacman *character.Pacman
 	Blinky *character.Blinky
+	Pinky  *character.Pinky
 	// Menu   *Menu
 	// Point  *Point
 	// Dot    *Dot
@@ -26,9 +27,15 @@ func NewGame() (*Game, error) {
 		panic(err)
 	}
 
+	Pinky, err := character.NewPinky()
+	if err != nil {
+		panic(err)
+	}
+
 	g := &Game{
 		Pacman: Pacman,
 		Blinky: Blinky,
+		Pinky:  Pinky,
 	}
 	return g, nil
 }
@@ -40,6 +47,10 @@ func (g *Game) Update() error {
 	if err := g.Blinky.Update(); err != nil {
 		return err
 	}
+
+	if err := g.Pinky.Update(); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -47,6 +58,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0x80, 0xa0, 0xc0, 0xff})
 	g.Pacman.Draw(screen)
 	g.Blinky.Draw(screen)
+	g.Pinky.Draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
