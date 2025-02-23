@@ -2,13 +2,15 @@ package character
 
 import (
 	"pacMan/internal/img"
+	"pacMan/internal/timer"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Pacman struct {
-	X, Y   float64
-	Sprite *ebiten.Image
+	X, Y, Dx, Dy float64
+	Sprite       *ebiten.Image
+	TimerMove    *timer.Timer
 }
 
 var (
@@ -25,9 +27,12 @@ var (
 
 func NewPacman() (*Pacman, error) {
 	return &Pacman{
-		X:      10,
-		Y:      10,
-		Sprite: child,
+		X:         10,
+		Y:         10,
+		Dx:        0,
+		Dy:        0,
+		Sprite:    child,
+		TimerMove: timer.NewTimer(500),
 	}, nil
 }
 
@@ -39,34 +44,31 @@ func (p *Pacman) Draw(screen *ebiten.Image) {
 }
 
 func (p *Pacman) Update() error {
+
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
+		p.Dx = 0.5
+		p.Dy = 0
 		p.Sprite = rightMouth
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.Sprite == rightMouth {
-		p.Sprite = totalRightMouth
-	}
-
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
+		p.Dx = -0.5
+		p.Dy = 0
 		p.Sprite = leftMouth
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.Sprite == leftMouth {
-		p.Sprite = totalLeftMouth
-	}
-
-	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
-		p.Sprite = downMouth
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) && p.Sprite == downMouth {
-		p.Sprite = totalDownMouth
-	}
-
 	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
+		p.Dy = -0.5
+		p.Dx = 0
 		p.Sprite = upMouth
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) && p.Sprite == upMouth {
-		p.Sprite = totalUpMouth
+	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
+		p.Dy = 0.5
+		p.Dx = 0
+		p.Sprite = downMouth
 	}
+
+	p.X += p.Dx
+	p.Y += p.Dy
 
 	return nil
 }
