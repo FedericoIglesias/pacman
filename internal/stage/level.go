@@ -42,18 +42,18 @@ func NewMap() (*Level, error) {
 }
 
 func (c *Level) Draw(screen *ebiten.Image) {
-	squareX := global.SCREEN_WIDTH / 17
-	squareY := global.SCREEN_HEIGHT / 23
+	squareX := global.SCREEN_WIDTH / 19
+	squareY := global.SCREEN_HEIGHT / 22
 
 	rect := ebiten.NewImage(squareX, squareY)
 	for r := 0; r < len(c.cart); r++ {
 		for col := 0; col < len(c.cart[r]); col++ {
 			op := &ebiten.DrawImageOptions{}
 			if c.cart[r][col] == "1" {
-				rect.Fill(color.RGBA{0, 0, 0, 0xff})
+				rect.Fill(color.RGBA{0, 0, 255, 0xff})
 			}
 			if c.cart[r][col] == "0" {
-				rect.Fill(color.RGBA{0, 0, 0, 0x00})
+				rect.Fill(color.RGBA{0, 0, 0, 0xff})
 			}
 			op.GeoM.Translate(float64(col*squareX), float64(r*squareY))
 			op.GeoM.Scale(1, 1)
