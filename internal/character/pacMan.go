@@ -1,7 +1,6 @@
 package character
 
 import (
-	"fmt"
 	"pacMan/internal/img"
 	"pacMan/internal/timer"
 
@@ -18,11 +17,11 @@ type Pacman struct {
 var (
 	child           = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 43))
 	leftMouth       = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 4))
-	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 27)) //sizeX 9
+	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 24)) //sizeX 9
 	rightMouth      = ebiten.NewImageFromImage(img.CutImage(13, 13, 23, 3))
 	totalRightMouth = ebiten.NewImageFromImage(img.CutImage(13, 13, 23, 23))
 	upMouth         = ebiten.NewImageFromImage(img.CutImage(13, 13, 44, 3))
-	totalUpMouth    = ebiten.NewImageFromImage(img.CutImage(13, 13, 47, 23))
+	totalUpMouth    = ebiten.NewImageFromImage(img.CutImage(13, 13, 44, 23))
 	downMouth       = ebiten.NewImageFromImage(img.CutImage(13, 13, 63, 3))
 	totalDownMouth  = ebiten.NewImageFromImage(img.CutImage(13, 13, 62, 23))
 )
@@ -34,7 +33,7 @@ func NewPacman() (*Pacman, error) {
 		Dx:        0,
 		Dy:        0,
 		Sprite:    child,
-		Dir:       "right",
+		Dir:       "left",
 		TimerShow: timer.NewTimer(500),
 	}, nil
 }
@@ -80,7 +79,6 @@ func (p *Pacman) Update() error {
 	p.Y += p.Dy
 
 	if p.TimerShow.IsTimerDone() {
-		fmt.Println("Timer Done")
 		p.ChangeMouth()
 		p.TimerShow.Reset()
 	}
