@@ -1,18 +1,14 @@
 package stage
 
 type Square struct {
-	Type *Type
-	X, Y int
+	IsWall bool
+	X, Y   int
 }
 
-func NewSquare(t *Type, x, y int) *Square {
+func NewSquare(w bool, x, y int) *Square {
 	return &Square{
-		Type: t,
-		X:    x,
-		Y:    y,
+		IsWall: w,
+		X:      x,
+		Y:      y,
 	}
-}
-
-func (s *Square) IsWall() bool {
-	return s.Type.IsWall
 }

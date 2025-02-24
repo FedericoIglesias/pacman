@@ -89,7 +89,7 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0x80, 0xa0, 0xc0, 0xff})
 	g.Level.Draw(screen)
-	g.Pacman.Draw(screen)
+	// g.Pacman.Draw(screen)
 	// g.Blinky.Draw(screen)
 	// g.Pinky.Draw(screen)
 	// g.Inky.Draw(screen)
