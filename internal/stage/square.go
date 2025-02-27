@@ -1,14 +1,18 @@
 package stage
 
+import "github.com/hajimehoshi/ebiten/v2"
+
 type Square struct {
 	IsWall bool
+	Rect   *ebiten.Image
 	X, Y   int
 }
 
-func NewSquare(w bool, x, y int) *Square {
+func NewSquare(wall bool, width, height, X, Y int) *Square {
 	return &Square{
-		IsWall: w,
-		X:      x,
-		Y:      y,
+		IsWall: wall,
+		Rect:   ebiten.NewImage(width, height),
+		X:      X,
+		Y:      Y,
 	}
 }

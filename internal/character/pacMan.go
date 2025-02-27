@@ -1,6 +1,7 @@
 package character
 
 import (
+	"image/color"
 	"pacMan/internal/img"
 	"pacMan/internal/timer"
 
@@ -12,6 +13,7 @@ type Pacman struct {
 	Dir          string
 	Sprite       *ebiten.Image
 	TimerShow    *timer.Timer
+	Stop         bool
 }
 
 var (
@@ -35,19 +37,27 @@ func NewPacman() (*Pacman, error) {
 		Sprite:    child,
 		Dir:       "left",
 		TimerShow: timer.NewTimer(500),
+		Stop:      false,
 	}, nil
 }
 
 func (p *Pacman) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(p.X, p.Y)
-	op.GeoM.Scale(2, 2)
+	op.GeoM.Scale(1, 1)
+	p.Sprite.Fill(color.RGBA{0xff, 0xff, 0xff, 0xff})
 	screen.DrawImage(p.Sprite, op)
 }
 
 func (p *Pacman) Update() error {
-
 	p.TimerShow.Update()
+
+	if p.Stop {
+		p.Stop = false
+		p.Dx = 0
+		p.Dy = 0
+		return nil
+	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.Dx = 0.5
@@ -118,4 +128,18 @@ func (p *Pacman) ChangeMouth() {
 			p.Sprite = downMouth
 		}
 	}
+}
+
+func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) bool {
+	PMaxX := p.X + 13
+	PMaxY := p.Y + 13
+	MaxX := X + float64(bound.Bounds().Max.X)
+	MaxY := Y + float64(bound.Bounds().Max.Y)
+
+	if p.X <= MaxX && PMaxX >= X && p.Y <= MaxY && PMaxY >= Y {
+		p.Stop = true
+		return p.Stop
+	}
+	p.Stop = false
+	return p.Stop
 }

@@ -39,7 +39,7 @@ func NewBlinky() (*Blinky, error) {
 func (b *Blinky) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(b.X, b.Y)
-	op.GeoM.Scale(5, 5)
+	op.GeoM.Scale(1, 1)
 	screen.DrawImage(b.Sprite, op)
 }
 
