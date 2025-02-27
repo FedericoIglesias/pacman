@@ -13,8 +13,15 @@ type Pacman struct {
 	Dir          string
 	Sprite       *ebiten.Image
 	TimerShow    *timer.Timer
-	Stop         bool
+	Stop         string
 }
+
+const (
+	LEFT  = "left"
+	RIGHT = "right"
+	UP    = "up"
+	DOWN  = "down"
+)
 
 var (
 	child           = ebiten.NewImageFromImage(img.CutImage(13, 13, 3, 43))
@@ -37,7 +44,7 @@ func NewPacman() (*Pacman, error) {
 		Sprite:    child,
 		Dir:       "left",
 		TimerShow: timer.NewTimer(500),
-		Stop:      false,
+		Stop:      "",
 	}, nil
 }
 
@@ -51,13 +58,6 @@ func (p *Pacman) Draw(screen *ebiten.Image) {
 
 func (p *Pacman) Update() error {
 	p.TimerShow.Update()
-
-	if p.Stop {
-		p.Stop = false
-		p.Dx = 0
-		p.Dy = 0
-		return nil
-	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.Dx = 0.5
@@ -83,6 +83,19 @@ func (p *Pacman) Update() error {
 		p.Dx = 0
 		p.Dir = "down"
 		p.Sprite = downMouth
+	}
+
+	if p.Stop == LEFT && p.Dx < 0 {
+		p.Dx = 0
+	}
+	if p.Stop == RIGHT && p.Dx > 0 {
+		p.Dx = 0
+	}
+	if p.Stop == UP && p.Dy < 0 {
+		p.Dy = 0
+	}
+	if p.Stop == DOWN && p.Dy > 0 {
+		p.Dy = 0
 	}
 
 	p.X += p.Dx
@@ -130,16 +143,23 @@ func (p *Pacman) ChangeMouth() {
 	}
 }
 
-func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) bool {
+func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 	PMaxX := p.X + 13
 	PMaxY := p.Y + 13
 	MaxX := X + float64(bound.Bounds().Max.X)
 	MaxY := Y + float64(bound.Bounds().Max.Y)
 
-	if p.X <= MaxX && PMaxX >= X && p.Y <= MaxY && PMaxY >= Y {
-		p.Stop = true
-		return p.Stop
+	if p.X <= MaxX {
+		p.Stop = LEFT
 	}
-	p.Stop = false
-	return p.Stop
+	if PMaxX >= X {
+		p.Stop = RIGHT
+	}
+	if p.Y <= MaxY {
+		p.Stop = UP
+	}
+	if PMaxY >= Y {
+		p.Stop = DOWN
+	}
+
 }
