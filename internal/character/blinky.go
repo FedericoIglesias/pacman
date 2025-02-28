@@ -1,6 +1,7 @@
 package character
 
 import (
+	"image/color"
 	"pacMan/internal/img"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -40,6 +41,7 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(b.X, b.Y)
 	op.GeoM.Scale(1, 1)
+	b.Sprite.Fill(color.RGBA{0xff, 0x0, 0x0, 0xff})
 	screen.DrawImage(b.Sprite, op)
 }
 

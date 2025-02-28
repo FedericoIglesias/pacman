@@ -1,6 +1,7 @@
 package character
 
 import (
+	"fmt"
 	"image/color"
 	"pacMan/internal/img"
 	"pacMan/internal/timer"
@@ -102,8 +103,8 @@ func (p *Pacman) Update() error {
 	p.Y += p.Dy
 
 	if p.TimerShow.IsTimerDone() {
-		p.ChangeMouth()
-		p.TimerShow.Reset()
+		// p.ChangeMouth()
+		// p.TimerShow.Reset()
 	}
 
 	return nil
@@ -149,19 +150,38 @@ func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 	MaxX := X + float64(bound.Bounds().Max.X)
 	MaxY := Y + float64(bound.Bounds().Max.Y)
 
-	if p.X <= MaxX && PMaxX >= X && p.Y <= MaxY && PMaxY >= Y {
+	var (
+		BetweenY   = p.Y <= MaxY && p.Y >= Y || PMaxY <= MaxY && PMaxY >= Y
+		BetweenX   = p.X <= MaxX && p.X >= X || PMaxX <= MaxX && PMaxX >= X
+		BoundLeft  = PMaxX >= X && BetweenY && p.X < X
+		BoundRight = p.X <= MaxX && BetweenY && PMaxX >= MaxX
+		BoundUp    = PMaxY >= Y && BetweenX && p.Y < Y
+		BoundDown  = p.Y <= MaxY && BetweenX && PMaxY >= MaxY
+		Collision  = BoundLeft || BoundRight || BoundUp || BoundDown
+		// Collision = BetweenX && BetweenY
+	)
 
-		if p.X <= MaxX {
-			p.Stop = LEFT
-		}
-		if PMaxX >= X {
+	if BoundUp {
+		fmt.Printf("BetweenY: %v, BetweenX: %v, BoundLeft: %v, BoundRight: %v, BoundUp: %v, BoundDown: %v, Collision: %v\n", BetweenY, BetweenX, BoundLeft, BoundRight, BoundUp, BoundDown, Collision)
+	}
+	if Collision {
+		if BoundLeft && p.Dir == RIGHT {
 			p.Stop = RIGHT
+			return
 		}
-		if p.Y <= MaxY {
-			p.Stop = UP
+		if BoundRight && p.Dir == LEFT {
+			p.Stop = LEFT
+			return
 		}
-		if PMaxY >= Y {
+		if BoundUp && p.Dir == DOWN {
 			p.Stop = DOWN
+			return
 		}
+		if BoundDown && p.Dir == UP {
+			p.Stop = UP
+			return
+		}
+	} else {
+		p.Stop = ""
 	}
 }
