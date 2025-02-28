@@ -62,26 +62,26 @@ func (p *Pacman) Update() error {
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.Dx = 0.5
 		p.Dy = 0
-		p.Dir = "right"
+		p.Dir = RIGHT
 		p.Sprite = rightMouth
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
 		p.Dx = -0.5
 		p.Dy = 0
-		p.Dir = "left"
+		p.Dir = LEFT
 		p.Sprite = leftMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
 		p.Dy = -0.5
 		p.Dx = 0
-		p.Dir = "up"
+		p.Dir = UP
 		p.Sprite = upMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
 		p.Dy = 0.5
 		p.Dx = 0
-		p.Dir = "down"
+		p.Dir = DOWN
 		p.Sprite = downMouth
 	}
 
@@ -110,7 +110,7 @@ func (p *Pacman) Update() error {
 }
 
 func (p *Pacman) ChangeMouth() {
-	if p.Dir == "right" {
+	if p.Dir == RIGHT {
 		if p.Sprite == rightMouth {
 			p.Sprite = totalRightMouth
 		} else {
@@ -118,7 +118,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == "left" {
+	if p.Dir == LEFT {
 		if p.Sprite == leftMouth {
 			p.Sprite = totalLeftMouth
 		} else {
@@ -126,7 +126,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == "up" {
+	if p.Dir == UP {
 		if p.Sprite == upMouth {
 			p.Sprite = totalUpMouth
 		} else {
@@ -134,7 +134,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == "down" {
+	if p.Dir == DOWN {
 		if p.Sprite == downMouth {
 			p.Sprite = totalDownMouth
 		} else {
@@ -149,17 +149,19 @@ func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 	MaxX := X + float64(bound.Bounds().Max.X)
 	MaxY := Y + float64(bound.Bounds().Max.Y)
 
-	if p.X <= MaxX {
-		p.Stop = LEFT
-	}
-	if PMaxX >= X {
-		p.Stop = RIGHT
-	}
-	if p.Y <= MaxY {
-		p.Stop = UP
-	}
-	if PMaxY >= Y {
-		p.Stop = DOWN
-	}
+	if p.X <= MaxX && PMaxX >= X && p.Y <= MaxY && PMaxY >= Y {
 
+		if p.X <= MaxX {
+			p.Stop = LEFT
+		}
+		if PMaxX >= X {
+			p.Stop = RIGHT
+		}
+		if p.Y <= MaxY {
+			p.Stop = UP
+		}
+		if PMaxY >= Y {
+			p.Stop = DOWN
+		}
+	}
 }
