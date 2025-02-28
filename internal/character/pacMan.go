@@ -86,16 +86,16 @@ func (p *Pacman) Update() error {
 		p.Sprite = downMouth
 	}
 
-	if p.Stop == LEFT && p.Dx < 0 {
+	if p.Stop == LEFT && p.Dir == LEFT {
 		p.Dx = 0
 	}
-	if p.Stop == RIGHT && p.Dx > 0 {
+	if p.Stop == RIGHT && p.Dir == RIGHT {
 		p.Dx = 0
 	}
-	if p.Stop == UP && p.Dy < 0 {
+	if p.Stop == UP && p.Dir == UP {
 		p.Dy = 0
 	}
-	if p.Stop == DOWN && p.Dy > 0 {
+	if p.Stop == DOWN && p.Dir == DOWN {
 		p.Dy = 0
 	}
 
@@ -154,15 +154,15 @@ func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 		BetweenY   = p.Y <= MaxY && p.Y >= Y || PMaxY <= MaxY && PMaxY >= Y
 		BetweenX   = p.X <= MaxX && p.X >= X || PMaxX <= MaxX && PMaxX >= X
 		BoundLeft  = PMaxX >= X && BetweenY && p.X < X
-		BoundRight = p.X <= MaxX && BetweenY && PMaxX >= MaxX
+		BoundRight = p.X <= MaxX && BetweenY && PMaxX > MaxX
 		BoundUp    = PMaxY >= Y && BetweenX && p.Y < Y
-		BoundDown  = p.Y <= MaxY && BetweenX && PMaxY >= MaxY
+		BoundDown  = p.Y <= MaxY && BetweenX && PMaxY > MaxY
 		Collision  = BoundLeft || BoundRight || BoundUp || BoundDown
 	)
 
-	if BoundUp {
-		fmt.Printf("BetweenY: %v, BetweenX: %v, BoundLeft: %v, BoundRight: %v, BoundUp: %v, BoundDown: %v, Collision: %v\n", BetweenY, BetweenX, BoundLeft, BoundRight, BoundUp, BoundDown, Collision)
-	}
+	fmt.Printf("Px:%v, PMaxX:%v, X:%v, MaxX:%v\n", p.X, PMaxX, X, MaxX)
+	fmt.Printf("Py:%v, PMaxY:%v, Y:%v, MaxY:%v\n", p.Y, PMaxY, Y, MaxY)
+
 	if Collision {
 		if BoundLeft && p.Dir == RIGHT {
 			p.Stop = RIGHT
