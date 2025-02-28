@@ -158,7 +158,6 @@ func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 		BoundUp    = PMaxY >= Y && BetweenX && p.Y < Y
 		BoundDown  = p.Y <= MaxY && BetweenX && PMaxY >= MaxY
 		Collision  = BoundLeft || BoundRight || BoundUp || BoundDown
-		// Collision = BetweenX && BetweenY
 	)
 
 	if BoundUp {
