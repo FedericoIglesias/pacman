@@ -33,6 +33,7 @@ func NewMap() (*Stage, error) {
 }
 
 func (s *Stage) Draw(screen *ebiten.Image) {
+	s.Pacman.Draw(screen)
 	s.Blinky.Draw(screen)
 	// stop := s.Pacman.X > s.Blinky.X && s.Pacman.Y > s.Blinky.Y
 
@@ -41,7 +42,6 @@ func (s *Stage) Draw(screen *ebiten.Image) {
 	// } else {
 	// 	fmt.Println("Move")
 	// }
-	s.Pacman.Draw(screen)
 	// stop := s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
 	// squareX := global.SCREEN_WIDTH / len(s.Stage[0])
 	// squareY := global.SCREEN_HEIGHT / len(s.Stage)
@@ -83,7 +83,11 @@ func MakeStage() [][]Square {
 }
 
 func (s *Stage) Update() error {
-	s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
+	// s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
+
+	colisono := s.Pacman.Collider().Intersects(s.Blinky.Collider())
+	fmt.Printf("Colisiono: %v\n", colisono)
+	s.Pacman.Stop = colisono
 
 	if err := s.Pacman.Update(); err != nil {
 		return err

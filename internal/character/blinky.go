@@ -1,8 +1,8 @@
 package character
 
 import (
-	"image/color"
 	"pacMan/internal/img"
+	"pacMan/internal/rect"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -11,8 +11,6 @@ type Blinky struct {
 	X, Y   float64
 	Sprite *ebiten.Image
 }
-
-// Blinky (red), Pinky (pink), Inky (cyan), and Clyde (orange)
 
 var (
 	BlinkyPosUp1        = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 3))
@@ -41,7 +39,7 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(b.X, b.Y)
 	op.GeoM.Scale(1, 1)
-	b.Sprite.Fill(color.RGBA{0xff, 0x0, 0x0, 0xff})
+
 	screen.DrawImage(b.Sprite, op)
 }
 
@@ -59,4 +57,9 @@ func (b *Blinky) Update() error {
 		b.Sprite = BlinkyPosLeft2
 	}
 	return nil
+}
+
+func (b *Blinky) Collider() rect.Rect {
+	bound := b.Sprite.Bounds()
+	return rect.NewRect(b.X, b.Y, float64(bound.Dx()), float64(bound.Dy()))
 }
