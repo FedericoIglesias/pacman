@@ -41,6 +41,8 @@ var (
 )
 
 func NewPacman() (*Pacman, error) {
+	// scale :=
+
 	return &Pacman{
 		X:         0,
 		Y:         0,
@@ -50,7 +52,7 @@ func NewPacman() (*Pacman, error) {
 		Dir:       "left",
 		TimerShow: timer.NewTimer(500),
 		Stop:      false,
-		Scale:     1,
+		Scale:     2,
 	}, nil
 }
 
@@ -196,7 +198,7 @@ func (p *Pacman) Collider() rect.Rect {
 	return rect.NewRect(
 		p.X,
 		p.Y,
-		float64(bounds.Dx()),
-		float64(bounds.Dy()),
+		float64(bounds.Dx())*p.Scale,
+		float64(bounds.Dy())*p.Scale,
 	)
 }
