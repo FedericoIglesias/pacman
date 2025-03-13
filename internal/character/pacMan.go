@@ -3,6 +3,7 @@ package character
 import (
 	"fmt"
 	"image/color"
+	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
 	"pacMan/internal/timer"
@@ -19,30 +20,19 @@ type Pacman struct {
 	Scale        float64
 }
 
-const (
-	LEFT   = "left"
-	RIGHT  = "right"
-	UP     = "up"
-	DOWN   = "down"
-	HEIGHT = 13
-	WIDTH  = 13
-)
-
 var (
-	child           = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 3, 43))
-	leftMouth       = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 3, 4))
-	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 3, 24))
-	rightMouth      = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 23, 3))
-	totalRightMouth = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 23, 23))
-	upMouth         = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 44, 3))
-	totalUpMouth    = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 44, 23))
-	downMouth       = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 63, 3))
-	totalDownMouth  = ebiten.NewImageFromImage(img.CutImage(HEIGHT, WIDTH, 62, 23))
+	child           = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 43))
+	leftMouth       = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 4))
+	totalLeftMouth  = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 24))
+	rightMouth      = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 23, 3))
+	totalRightMouth = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 23, 23))
+	upMouth         = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 44, 3))
+	totalUpMouth    = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 44, 23))
+	downMouth       = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 63, 3))
+	totalDownMouth  = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 62, 23))
 )
 
 func NewPacman() (*Pacman, error) {
-	// scale :=
-
 	return &Pacman{
 		X:         0,
 		Y:         0,
@@ -52,7 +42,7 @@ func NewPacman() (*Pacman, error) {
 		Dir:       "left",
 		TimerShow: timer.NewTimer(500),
 		Stop:      false,
-		Scale:     2,
+		Scale:     global.SCALE,
 	}, nil
 }
 
@@ -70,39 +60,39 @@ func (p *Pacman) Update() error {
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.Dx = 0.5
 		p.Dy = 0
-		p.Dir = RIGHT
+		p.Dir = global.RIGHT
 		p.Sprite = rightMouth
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
 		p.Dx = -0.5
 		p.Dy = 0
-		p.Dir = LEFT
+		p.Dir = global.LEFT
 		p.Sprite = leftMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
 		p.Dy = -0.5
 		p.Dx = 0
-		p.Dir = UP
+		p.Dir = global.UP
 		p.Sprite = upMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
 		p.Dy = 0.5
 		p.Dx = 0
-		p.Dir = DOWN
+		p.Dir = global.DOWN
 		p.Sprite = downMouth
 	}
 
-	if p.Stop && p.Dir == LEFT {
+	if p.Stop && p.Dir == global.LEFT {
 		p.Dx = 0
 	}
-	if p.Stop && p.Dir == RIGHT {
+	if p.Stop && p.Dir == global.RIGHT {
 		p.Dx = 0
 	}
-	if p.Stop && p.Dir == UP {
+	if p.Stop && p.Dir == global.UP {
 		p.Dy = 0
 	}
-	if p.Stop && p.Dir == DOWN {
+	if p.Stop && p.Dir == global.DOWN {
 		p.Dy = 0
 	}
 
@@ -118,7 +108,7 @@ func (p *Pacman) Update() error {
 }
 
 func (p *Pacman) ChangeMouth() {
-	if p.Dir == RIGHT {
+	if p.Dir == global.RIGHT {
 		if p.Sprite == rightMouth {
 			p.Sprite = totalRightMouth
 		} else {
@@ -126,7 +116,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == LEFT {
+	if p.Dir == global.LEFT {
 		if p.Sprite == leftMouth {
 			p.Sprite = totalLeftMouth
 		} else {
@@ -134,7 +124,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == UP {
+	if p.Dir == global.UP {
 		if p.Sprite == upMouth {
 			p.Sprite = totalUpMouth
 		} else {
@@ -142,7 +132,7 @@ func (p *Pacman) ChangeMouth() {
 		}
 	}
 
-	if p.Dir == DOWN {
+	if p.Dir == global.DOWN {
 		if p.Sprite == downMouth {
 			p.Sprite = totalDownMouth
 		} else {
@@ -193,12 +183,12 @@ func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
 }
 
 func (p *Pacman) Collider() rect.Rect {
-	bounds := p.Sprite.Bounds()
+	bound := p.Sprite.Bounds()
 
 	return rect.NewRect(
 		p.X,
 		p.Y,
-		float64(bounds.Dx())*p.Scale,
-		float64(bounds.Dy())*p.Scale,
+		float64(bound.Dx())*p.Scale,
+		float64(bound.Dy())*p.Scale,
 	)
 }

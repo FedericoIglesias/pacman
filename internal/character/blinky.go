@@ -1,6 +1,8 @@
 package character
 
 import (
+	"image/color"
+	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
 
@@ -10,7 +12,13 @@ import (
 type Blinky struct {
 	X, Y   float64
 	Sprite *ebiten.Image
+	Scale  float64
 }
+
+const (
+	WIDTH  = 14
+	HEIGHT = 14
+)
 
 var (
 	BlinkyPosUp1        = ebiten.NewImageFromImage(img.CutImage(14, 14, 83, 3))
@@ -32,14 +40,17 @@ func NewBlinky() (*Blinky, error) {
 		X:      30,
 		Y:      30,
 		Sprite: BlinkyPosUp1,
+		Scale:  global.SCALE,
 	}, nil
 }
 
 func (b *Blinky) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
+	// op.GeoM.Translate(b.X, b.Y)
+	// op.GeoM.Scale(float64(b.Scale), float64(b.Scale))
+	op.GeoM.Scale(b.Scale, b.Scale)
 	op.GeoM.Translate(b.X, b.Y)
-	op.GeoM.Scale(1, 1)
-
+	b.Sprite.Fill(color.RGBA{0xff, 0xff, 0xff, 0xff})
 	screen.DrawImage(b.Sprite, op)
 }
 
@@ -61,5 +72,5 @@ func (b *Blinky) Update() error {
 
 func (b *Blinky) Collider() rect.Rect {
 	bound := b.Sprite.Bounds()
-	return rect.NewRect(b.X, b.Y, float64(bound.Dx()), float64(bound.Dy()))
+	return rect.NewRect(b.X, b.Y, float64(bound.Dx())*b.Scale, float64(bound.Dy())*b.Scale)
 }
