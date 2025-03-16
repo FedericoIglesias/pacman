@@ -15,18 +15,19 @@ type Wall struct {
 	Sprite        *ebiten.Image
 }
 
-func NewWall(x, y, width, height float64) Wall {
-	return Wall{
+func NewWall(x, y, width, height float64) *Wall {
+	return &Wall{
 		X:      x,
 		Y:      y,
 		Width:  width,
 		Height: height,
 		Scale:  global.SCALE,
+		Sprite: ebiten.NewImage(int(width), int(height)),
 	}
 }
 
 func (w Wall) Collider() rect.Rect {
-	return rect.NewRect(w.X, w.Y, w.Width, w.Height)
+	return rect.NewRect(w.X, w.Y, w.Width*w.Scale, w.Height*w.Scale)
 }
 
 func (w Wall) Draw(screen *ebiten.Image) {

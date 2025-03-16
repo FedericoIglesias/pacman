@@ -12,6 +12,7 @@ type Stage struct {
 	Stage  [][]Square
 	Pacman *character.Pacman
 	Blinky *character.Blinky
+	Wall   *character.Wall
 }
 
 func NewMap() (*Stage, error) {
@@ -29,36 +30,14 @@ func NewMap() (*Stage, error) {
 		Stage:  MakeStage(),
 		Pacman: Pacman,
 		Blinky: Blinky,
+		Wall:   character.NewWall(50, 50, 1, 20),
 	}, nil
 }
 
 func (s *Stage) Draw(screen *ebiten.Image) {
 	s.Pacman.Draw(screen)
-	s.Blinky.Draw(screen)
-	// stop := s.Pacman.X > s.Blinky.X && s.Pacman.Y > s.Blinky.Y
-
-	// if stop {
-	// 	fmt.Println("Stop")
-	// } else {
-	// 	fmt.Println("Move")
-	// }
-	// stop := s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
-	// squareX := global.SCREEN_WIDTH / len(s.Stage[0])
-	// squareY := global.SCREEN_HEIGHT / len(s.Stage)
-	// rect := ebiten.NewImage(squareX, squareY)
-	// for r := 0; r < len(s.Stage); r++ {
-	// 	for col := 0; col < len(s.Stage[r]); col++ {
-	// 		op := &ebiten.DrawImageOptions{}
-	// 		if s.Stage[r][col].IsWall {
-	// 			rect.Fill(color.RGBA{0, 0, 255, 0xff})
-	// 		} else {
-	// 			rect.Fill(color.RGBA{0, 0, 0, 0xff})
-	// 		}
-	// 		op.GeoM.Translate(float64(col*squareX), float64(r*squareY))
-	// 		op.GeoM.Scale(1, 1)
-	// 		screen.DrawImage(rect, op)
-	// 	}
-	// }
+	s.Wall.Draw(screen)
+	// s.Blinky.Draw(screen)
 }
 
 func MakeStage() [][]Square {
@@ -83,18 +62,20 @@ func MakeStage() [][]Square {
 }
 
 func (s *Stage) Update() error {
-	// s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
-
-	if s.Pacman.Collider().IntersectsGhost(s.Blinky.Collider()) {
+	if s.Pacman.Collider().IntersectsWall(s.Wall.Collider()) {
 		s.Pacman.Stop = s.Pacman.Dir
 	}
+
+	// if s.Pacman.Collider().IntersectsGhost(s.Blinky.Collider()) {
+	// 	s.Pacman.Stop = s.Pacman.Dir
+	// }
 
 	if err := s.Pacman.Update(); err != nil {
 		return err
 	}
-	if err := s.Blinky.Update(); err != nil {
-		return err
-	}
+	// if err := s.Blinky.Update(); err != nil {
+	// 	return err
+	// }
 
 	return nil
 }
