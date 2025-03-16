@@ -1,7 +1,6 @@
 package character
 
 import (
-	"fmt"
 	"image/color"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
@@ -16,7 +15,7 @@ type Pacman struct {
 	Dir          string
 	Sprite       *ebiten.Image
 	TimerShow    *timer.Timer
-	Stop         bool
+	Stop         string
 	Scale        float64
 }
 
@@ -39,9 +38,9 @@ func NewPacman() (*Pacman, error) {
 		Dx:        0,
 		Dy:        0,
 		Sprite:    child,
-		Dir:       "left",
+		Dir:       global.LEFT,
 		TimerShow: timer.NewTimer(500),
-		Stop:      false,
+		Stop:      "",
 		Scale:     global.SCALE,
 	}, nil
 }
@@ -83,19 +82,19 @@ func (p *Pacman) Update() error {
 		p.Sprite = downMouth
 	}
 
-	if p.Stop && p.Dir == global.LEFT {
+	if p.Stop == p.Dir {
 		p.Dx = 0
 	}
-	if p.Stop && p.Dir == global.RIGHT {
+	if p.Stop == p.Dir {
 		p.Dx = 0
 	}
-	if p.Stop && p.Dir == global.UP {
+	if p.Stop == p.Dir {
 		p.Dy = 0
 	}
-	if p.Stop && p.Dir == global.DOWN {
+	if p.Stop == p.Dir {
 		p.Dy = 0
 	}
-
+	p.Stop = ""
 	p.X += p.Dx
 	p.Y += p.Dy
 
@@ -139,47 +138,6 @@ func (p *Pacman) ChangeMouth() {
 			p.Sprite = downMouth
 		}
 	}
-}
-
-func (p *Pacman) CheckCollision(bound *ebiten.Image, X, Y float64) {
-	// PMaxX := p.X + 13*p.Scale
-	// PMaxY := p.Y + 13*p.Scale
-	// MaxX := X + float64(bound.Bounds().Max.X)
-	// MaxY := Y + float64(bound.Bounds().Max.Y)
-
-	// var (
-	// 	BetweenY   = p.Y <= MaxY && p.Y >= Y || PMaxY <= MaxY && PMaxY >= Y
-	// 	BetweenX   = p.X <= MaxX && p.X >= X || PMaxX <= MaxX && PMaxX >= X
-	// 	BoundLeft  = PMaxX >= X && BetweenY && p.X < X
-	// 	BoundRight = p.X <= MaxX && BetweenY && PMaxX > MaxX
-	// 	BoundUp    = PMaxY >= Y && BetweenX && p.Y < Y
-	// 	BoundDown  = p.Y <= MaxY && BetweenX && PMaxY > MaxY
-	// 	Collision  = BoundLeft || BoundRight || BoundUp || BoundDown
-	// )
-
-	// fmt.Printf("Px:%v, PMaxX:%v,Py:%v, PMaxY:%v,\n", p.X, PMaxX, p.Y, PMaxY)
-	fmt.Printf("DX:%v, DY:%v\n", p.Sprite.Bounds().Dy(), p.Sprite.Bounds().Dy())
-	//30 - 44
-	// if Collision {
-	// 	if BoundLeft && p.Dir == RIGHT {
-	// 		p.Stop = RIGHT
-	// 		return
-	// 	}
-	// 	if BoundRight && p.Dir == LEFT {
-	// 		p.Stop = LEFT
-	// 		return
-	// 	}
-	// 	if BoundUp && p.Dir == DOWN {
-	// 		p.Stop = DOWN
-	// 		return
-	// 	}
-	// 	if BoundDown && p.Dir == UP {
-	// 		p.Stop = UP
-	// 		return
-	// 	}
-	// } else {
-	// 	p.Stop = ""
-	// }
 }
 
 func (p *Pacman) Collider() rect.Rect {

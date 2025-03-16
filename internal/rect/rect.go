@@ -24,9 +24,16 @@ func (r Rect) MaxY() float64 {
 	return r.Y + r.Height
 }
 
-func (r Rect) Intersects(other Rect) bool {
-	return r.X <= other.MaxX() && //r.X = left  and other.MaxX() = right
-		other.X <= r.MaxX() && // other.X = left and r.MaxX() = right
-		r.Y <= other.MaxY() && // r.Y = top and other.MaxY() = bottom
-		other.Y <= r.MaxY() // other.Y = top and r.MaxY() = bottom
+func (r Rect) IntersectsGhost(other Rect) bool {
+	return r.X <= other.MaxX() &&
+		other.X <= r.MaxX() &&
+		r.Y <= other.MaxY() &&
+		other.Y <= r.MaxY()
+}
+
+func (r Rect) IntersectsWall(other Rect) bool {
+	return r.X < other.MaxX() &&
+		other.X < r.MaxX() &&
+		r.Y < other.MaxY() &&
+		other.Y < r.MaxY()
 }

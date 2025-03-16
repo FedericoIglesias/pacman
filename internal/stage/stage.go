@@ -85,9 +85,9 @@ func MakeStage() [][]Square {
 func (s *Stage) Update() error {
 	// s.Pacman.CheckCollision(s.Blinky.Sprite, s.Blinky.X, s.Blinky.Y)
 
-	colisono := s.Pacman.Collider().Intersects(s.Blinky.Collider())
-	fmt.Printf("Colisiono: %v\n", colisono)
-	s.Pacman.Stop = colisono
+	if s.Pacman.Collider().IntersectsGhost(s.Blinky.Collider()) {
+		s.Pacman.Stop = s.Pacman.Dir
+	}
 
 	if err := s.Pacman.Update(); err != nil {
 		return err
