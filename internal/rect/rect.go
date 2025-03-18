@@ -36,8 +36,8 @@ func (r Rect) IntersectsGhost(other Rect) bool {
 func (r Rect) IntersectsWall(other Rect, dir string) bool {
 
 	var (
-		betweenY = (r.Y >= other.Y && r.Y <= other.MaxY()) || (r.MaxY() >= other.Y && r.MaxY() <= other.MaxY())
-		betweenX = (r.X >= other.X && r.X <= other.MaxX()) || (r.MaxX() >= other.X && r.MaxX() <= other.MaxX())
+		betweenY = (r.Y >= other.Y && r.Y <= other.MaxY()) || (r.MaxY() >= other.Y && r.MaxY() <= other.MaxY()) || (r.Y <= other.Y && r.MaxY() >= other.MaxY())
+		betweenX = (r.X >= other.X && r.X <= other.MaxX()) || (r.MaxX() >= other.X && r.MaxX() <= other.MaxX()) || (r.X <= other.X && r.MaxX() >= other.MaxX())
 	)
 
 	if dir == global.RIGHT && betweenY {
