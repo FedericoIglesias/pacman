@@ -37,3 +37,10 @@ func (w Wall) Draw(screen *ebiten.Image) {
 	w.Sprite.Fill(color.RGBA{0x00, 0xff, 0x00, 0xff})
 	screen.DrawImage(w.Sprite, op)
 }
+
+// higurashi
+
+var STAGE = [][]*Wall{
+	{NewWall(50, 50, 1, 60)},
+	{NewWall(50, 50, 60, 1)},
+}
