@@ -62,6 +62,10 @@ func (s *Stage) Draw(screen *ebiten.Image) {
 // }
 
 func (s *Stage) Update() error {
+	s.Pacman.Stop = ""
+	if err := s.Pacman.Update(); err != nil {
+		return err
+	}
 	for _, Wall := range s.Stage {
 		for _, wall := range Wall {
 			if s.Pacman.Collider().IntersectsWall(wall.Collider(), s.Pacman.Dir) {
@@ -73,12 +77,10 @@ func (s *Stage) Update() error {
 	// 	s.Pacman.Stop = s.Pacman.Dir
 	// }
 
-	if err := s.Pacman.Update(); err != nil {
-		return err
-	}
 	// if err := s.Blinky.Update(); err != nil {
 	// 	return err
 	// }
 
+	s.Pacman.Move()
 	return nil
 }

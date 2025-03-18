@@ -82,28 +82,29 @@ func (p *Pacman) Update() error {
 		p.Sprite = downMouth
 	}
 
-	if p.Stop == p.Dir {
-		p.Dx = 0
-	}
-	if p.Stop == p.Dir {
-		p.Dx = 0
-	}
-	if p.Stop == p.Dir {
-		p.Dy = 0
-	}
-	if p.Stop == p.Dir {
-		p.Dy = 0
-	}
-	p.Stop = ""
-	p.X += p.Dx
-	p.Y += p.Dy
-
 	if p.TimerShow.IsTimerDone() {
 		p.ChangeMouth()
 		p.TimerShow.Reset()
 	}
 
 	return nil
+}
+
+func (p *Pacman) Move() {
+	if p.Stop == p.Dir {
+		p.Dx = 0
+	}
+	if p.Stop == p.Dir {
+		p.Dx = 0
+	}
+	if p.Stop == p.Dir {
+		p.Dy = 0
+	}
+	if p.Stop == p.Dir {
+		p.Dy = 0
+	}
+	p.X += p.Dx
+	p.Y += p.Dy
 }
 
 func (p *Pacman) ChangeMouth() {
