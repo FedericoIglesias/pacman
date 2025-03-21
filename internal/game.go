@@ -2,6 +2,7 @@ package internal
 
 import (
 	"image/color"
+	"pacMan/internal/global"
 	"pacMan/internal/stage"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -37,5 +38,5 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 600, 600
+	return global.SCREEN_WIDTH, global.SCREEN_HEIGHT
 }

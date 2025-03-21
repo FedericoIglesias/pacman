@@ -2,7 +2,7 @@ package global
 
 const (
 	SCREEN_WIDTH  = 600
-	SCREEN_HEIGHT = 600
+	SCREEN_HEIGHT = 650
 	SCALE         = 2
 	PACMAN_HEIGHT = 13
 	PACMAN_WIDTH  = 13
