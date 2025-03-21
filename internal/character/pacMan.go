@@ -1,7 +1,6 @@
 package character
 
 import (
-	"image/color"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
@@ -17,6 +16,7 @@ type Pacman struct {
 	TimerShow    *timer.Timer
 	Stop         string
 	Scale        float64
+	Speed        float64
 }
 
 var (
@@ -42,6 +42,7 @@ func NewPacman() (*Pacman, error) {
 		TimerShow: timer.NewTimer(500),
 		Stop:      "",
 		Scale:     global.SCALE,
+		Speed:     1,
 	}, nil
 }
 
@@ -49,7 +50,7 @@ func (p *Pacman) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Scale(p.Scale, p.Scale)
 	op.GeoM.Translate(p.X, p.Y)
-	p.Sprite.Fill(color.RGBA{0xff, 0xff, 0xff, 0xff})
+
 	screen.DrawImage(p.Sprite, op)
 }
 
@@ -57,26 +58,26 @@ func (p *Pacman) Update() error {
 	p.TimerShow.Update()
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
-		p.Dx = 0.5
+		p.Dx = p.Speed
 		p.Dy = 0
 		p.Dir = global.RIGHT
 		p.Sprite = rightMouth
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
-		p.Dx = -0.5
+		p.Dx = -p.Speed
 		p.Dy = 0
 		p.Dir = global.LEFT
 		p.Sprite = leftMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
-		p.Dy = -0.5
+		p.Dy = -p.Speed
 		p.Dx = 0
 		p.Dir = global.UP
 		p.Sprite = upMouth
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
-		p.Dy = 0.5
+		p.Dy = p.Speed
 		p.Dx = 0
 		p.Dir = global.DOWN
 		p.Sprite = downMouth
