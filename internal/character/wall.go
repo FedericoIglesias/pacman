@@ -2,6 +2,7 @@ package character
 
 import (
 	"image/color"
+	"pacMan/internal/global"
 	"pacMan/internal/rect"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -38,7 +39,6 @@ func (w Wall) Draw(screen *ebiten.Image) {
 }
 
 // higurashi
-const SIDE = 30
 
 // var STAGE = [][]*Wall{}
 func STAGE() []*Wall {
@@ -46,7 +46,7 @@ func STAGE() []*Wall {
 	for r, row := range STAGE_BYNARY {
 		for c, colum := range row {
 			if colum == 1 {
-				STAGE = append(STAGE, NewWall(float64(SIDE*c), float64(SIDE*r), float64(SIDE), float64(SIDE)))
+				STAGE = append(STAGE, NewWall(float64(global.SIDE*c), float64(global.SIDE*r), float64(global.SIDE), float64(global.SIDE)))
 			}
 		}
 	}

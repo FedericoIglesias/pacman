@@ -33,8 +33,8 @@ var (
 
 func NewPacman() (*Pacman, error) {
 	return &Pacman{
-		X:         0,
-		Y:         0,
+		X:         (global.SIDE * 9) + 2.5,
+		Y:         (global.SIDE * 15) + 2,
 		Dx:        0,
 		Dy:        0,
 		Sprite:    child,
