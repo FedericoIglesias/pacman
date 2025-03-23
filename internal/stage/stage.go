@@ -7,7 +7,7 @@ import (
 )
 
 type Stage struct {
-	Stage  []*character.Wall
+	Square *character.Square
 	Pacman *character.Pacman
 	Blinky *character.Blinky
 	Wall   *character.Wall
@@ -25,20 +25,17 @@ func NewMap() (*Stage, error) {
 	}
 
 	return &Stage{
-		// Stage:  character.STAGE(),
+		Square: character.NewSquare(),
 		Pacman: Pacman,
 		Blinky: Blinky,
-		// Wall:   character.NewWall(50, 50, 1, 20),
 	}, nil
 }
 
 func (s *Stage) Draw(screen *ebiten.Image) {
-	for _, Wall := range s.Stage {
-		Wall.Draw(screen)
-	}
+	s.Square.Draw(screen)
 
 	s.Pacman.Draw(screen)
-	// s.Blinky.Draw(screen)
+	s.Blinky.Draw(screen)
 }
 
 // func MakeStage() [][]Square {
@@ -64,7 +61,7 @@ func (s *Stage) Update() error {
 	if err := s.Pacman.Update(); err != nil {
 		return err
 	}
-	for _, Wall := range s.Stage {
+	for _, Wall := range s.Square.Wall {
 		if s.Pacman.Collider().IntersectsWall(Wall.Collider(), s.Pacman.Dir) {
 			s.Pacman.Stop = s.Pacman.Dir
 		}
