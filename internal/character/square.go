@@ -23,6 +23,9 @@ func NewSquare() *Square {
 
 func (s *Square) Draw(screen *ebiten.Image) {
 	for _, d := range s.Dot {
+		if d == nil {
+			continue
+		}
 		d.Draw(screen)
 	}
 	for _, w := range s.Wall {
