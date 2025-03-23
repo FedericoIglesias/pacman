@@ -41,19 +41,19 @@ func (r Rect) IntersectsWall(other Rect, dir string) bool {
 	)
 
 	if dir == global.RIGHT && betweenY {
-		return r.MaxX()+1 == other.X
+		return r.MaxX()+1 >= other.X && r.MaxX() <= other.X
 	}
 
 	if dir == global.LEFT && betweenY {
-		return r.X-1 == other.MaxX()
+		return r.X-1 <= other.MaxX() && r.X >= other.MaxX()
 	}
 
 	if dir == global.UP && betweenX {
-		return r.Y-1 == other.MaxY()
+		return r.Y-1 <= other.MaxY() && r.Y >= other.MaxY()
 	}
 
 	if dir == global.DOWN && betweenX {
-		return r.MaxY()+1 == other.Y
+		return r.MaxY()+1 >= other.Y && r.MaxY() <= other.Y
 	}
 	return false
 }
