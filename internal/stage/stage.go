@@ -25,7 +25,7 @@ func NewMap() (*Stage, error) {
 	}
 
 	return &Stage{
-		Stage:  character.STAGE(),
+		// Stage:  character.STAGE(),
 		Pacman: Pacman,
 		Blinky: Blinky,
 		// Wall:   character.NewWall(50, 50, 1, 20),
