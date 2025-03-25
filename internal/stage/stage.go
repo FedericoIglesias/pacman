@@ -34,7 +34,7 @@ func NewMap() (*Stage, error) {
 func (s *Stage) Draw(screen *ebiten.Image) {
 	s.Square.Draw(screen)
 
-	s.Pacman.Draw(screen)
+	// s.Pacman.Draw(screen)
 	s.Blinky.Draw(screen)
 }
 
@@ -62,9 +62,10 @@ func (s *Stage) Update() error {
 		return err
 	}
 	for _, Wall := range s.Square.Wall {
-		if s.Pacman.Collider().IntersectsWall(Wall.Collider(), s.Pacman.Dir) {
-			s.Pacman.Stop = s.Pacman.Dir
-		}
+		// if s.Pacman.Collider().IntersectsWall(Wall.Collider(), s.Pacman.Dir) {
+		// 	s.Pacman.Stop = s.Pacman.Dir
+		// }
+		s.Blinky.Collider().IntersectsSquare(Wall.Collider(), s.Blinky.Dir)
 	}
 	for i, Dot := range s.Square.Dot {
 		if Dot != nil && s.Pacman.Collider().IntersectsGhost(Dot.Collider()) {

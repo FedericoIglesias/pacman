@@ -1,6 +1,7 @@
 package character
 
 import (
+	"fmt"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
@@ -14,6 +15,7 @@ type Blinky struct {
 	Scale           float64
 	Dir, DirX, DirY string // direction
 	MovTicks        int
+	ForbidenMov     []string
 }
 
 const (
@@ -39,7 +41,7 @@ var (
 func NewBlinky() (*Blinky, error) {
 	return &Blinky{
 		X:        global.SIDE * 9,
-		Y:        global.SIDE*7 + 1,
+		Y:        global.SIDE * 7,
 		Sprite:   BlinkyPosUp1,
 		Scale:    global.SCALE,
 		Dir:      global.RIGHT,
@@ -59,6 +61,7 @@ func (b *Blinky) Update() error {
 	b.Destination()
 	if b.MovTicks == 60 {
 		b.MovTicks = 0
+		b.CheckPosition()
 	}
 	return nil
 }
@@ -82,18 +85,18 @@ func (b *Blinky) MoveDown() {
 }
 
 func (b *Blinky) Destination() {
-	if b.Dir == global.RIGHT {
-		b.MoveRight()
-	}
-	if b.Dir == global.LEFT {
-		b.MoveLeft()
-	}
-	if b.Dir == global.UP {
-		b.MoveUp()
-	}
-	if b.Dir == global.DOWN {
-		b.MoveDown()
-	}
+	// if b.Dir == global.RIGHT {
+	// 	b.MoveRight()
+	// }
+	// if b.Dir == global.LEFT {
+	// 	b.MoveLeft()
+	// }
+	// if b.Dir == global.UP {
+	// 	b.MoveUp()
+	// }
+	// if b.Dir == global.DOWN {
+	// 	b.MoveDown()
+	// }
 
 }
 
@@ -113,15 +116,22 @@ func (b *Blinky) CalculateDistance(objetive rect.Rect) {
 		b.DirY = global.DOWN
 	}
 
-	if distanceX < ditanceY {
-		b.Dir = b.DirX
-	} else {
-		if b.Dir == b.DirY {
-			b.Dir = b.DirY
-		}
-	}
 }
 
-func (b *Blinky) CheckCollision() {
+func (b *Blinky) CheckPosition() {
+	X := b.X / global.SIDE
+	Y := b.Y / global.SIDE
 
+	if global.STAGE_BYNARY[int(Y)][int(X+1)] == 1 {
+		b.ForbidenMov = append(b.ForbidenMov, global.RIGHT)
+	}
+	if global.STAGE_BYNARY[int(Y)][int(X-1)] == 1 {
+		b.ForbidenMov = append(b.ForbidenMov, global.LEFT)
+	}
+	if global.STAGE_BYNARY[int(Y+1)][int(X)] == 1 {
+		b.ForbidenMov = append(b.ForbidenMov, global.DOWN)
+	}
+	if global.STAGE_BYNARY[int(Y-1)][int(X)] == 1 {
+		b.ForbidenMov = append(b.ForbidenMov, global.UP)
+	}
 }
