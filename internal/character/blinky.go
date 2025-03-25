@@ -37,8 +37,8 @@ var (
 
 func NewBlinky() (*Blinky, error) {
 	return &Blinky{
-		X:      30,
-		Y:      30,
+		X:      271,
+		Y:      211,
 		Sprite: BlinkyPosUp1,
 		Scale:  global.SCALE,
 	}, nil

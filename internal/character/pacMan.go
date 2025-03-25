@@ -22,12 +22,12 @@ type Pacman struct {
 
 var (
 	CHILD             = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 43))
-	LEFT_MOUTH        = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 4))
-	TOTAL_LEFT_MOUTH  = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 24))
+	LEFT_MOUTH        = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 3))
+	TOTAL_LEFT_MOUTH  = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 3, 23))
 	RIGHT_MOUTH       = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 23, 3))
 	TOTAL_RIGHT_MOUTH = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 23, 23))
-	UP_MOUTH          = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 44, 3))
-	TOTAL_UP_MOUTH    = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 44, 23))
+	UP_MOUTH          = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 43, 3))
+	TOTAL_UP_MOUTH    = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 43, 23))
 	DOWN_MOUTH        = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 63, 3))
 	TOTAL_DOWN_MOUTH  = ebiten.NewImageFromImage(img.CutImage(global.PACMAN_HEIGHT, global.PACMAN_WIDTH, 62, 23))
 	STATE_UP          = []*ebiten.Image{CHILD, UP_MOUTH, TOTAL_UP_MOUTH, UP_MOUTH}
