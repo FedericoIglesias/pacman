@@ -1,7 +1,6 @@
 package character
 
 import (
-	"image/color"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
@@ -10,11 +9,11 @@ import (
 )
 
 type Blinky struct {
-	X, Y     float64
-	Sprite   *ebiten.Image
-	Scale    float64
-	Dir      string // direction
-	MovTicks int
+	X, Y            float64
+	Sprite          *ebiten.Image
+	Scale           float64
+	Dir, DirX, DirY string // direction
+	MovTicks        int
 }
 
 const (
@@ -52,7 +51,6 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Scale(b.Scale, b.Scale)
 	op.GeoM.Translate(b.X, b.Y)
-	b.Sprite.Fill(color.RGBA{0xff, 0x00, 0x00, 0xff})
 	screen.DrawImage(b.Sprite, op)
 }
 
@@ -96,5 +94,34 @@ func (b *Blinky) Destination() {
 	if b.Dir == global.DOWN {
 		b.MoveDown()
 	}
+
+}
+
+func (b *Blinky) CalculateDistance(objetive rect.Rect) {
+	distanceX := b.X - 0
+	ditanceY := b.Y - 0
+
+	if distanceX < 0 {
+		b.DirX = global.RIGHT
+	} else {
+		b.DirX = global.LEFT
+	}
+
+	if ditanceY < 0 {
+		b.DirY = global.UP
+	} else {
+		b.DirY = global.DOWN
+	}
+
+	if distanceX < ditanceY {
+		b.Dir = b.DirX
+	} else {
+		if b.Dir == b.DirY {
+			b.Dir = b.DirY
+		}
+	}
+}
+
+func (b *Blinky) CheckCollision() {
 
 }

@@ -57,3 +57,20 @@ func (r Rect) IntersectsWall(other Rect, dir string) bool {
 	}
 	return false
 }
+
+func (r Rect) IntersectsSquare(other Rect, dir string) []string {
+	dirUnavailable := []string{}
+	if other.X+15 >= r.X && other.X+15 <= r.MaxX() { // dir = right
+		dirUnavailable = append(dirUnavailable, global.RIGHT)
+	}
+	if other.MaxX()-15 >= r.X && other.MaxX()-15 <= r.MaxX() { // dir = left
+		dirUnavailable = append(dirUnavailable, global.LEFT)
+	}
+	if other.Y-15 >= r.Y && other.Y-15 <= r.MaxY() { // dir = Up
+		dirUnavailable = append(dirUnavailable, global.UP)
+	}
+	if other.MaxY()+15 >= r.Y && other.MaxY()+15 <= r.MaxY() { // dir = Down
+		dirUnavailable = append(dirUnavailable, global.DOWN)
+	}
+	return dirUnavailable
+}
