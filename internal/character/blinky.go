@@ -10,9 +10,11 @@ import (
 )
 
 type Blinky struct {
-	X, Y   float64
-	Sprite *ebiten.Image
-	Scale  float64
+	X, Y     float64
+	Sprite   *ebiten.Image
+	Scale    float64
+	Dir      string // direction
+	MovTicks int
 }
 
 const (
@@ -37,10 +39,12 @@ var (
 
 func NewBlinky() (*Blinky, error) {
 	return &Blinky{
-		X:      271,
-		Y:      211,
-		Sprite: BlinkyPosUp1,
-		Scale:  global.SCALE,
+		X:        global.SIDE * 9,
+		Y:        global.SIDE*7 + 1,
+		Sprite:   BlinkyPosUp1,
+		Scale:    global.SCALE,
+		Dir:      global.RIGHT,
+		MovTicks: 0,
 	}, nil
 }
 
@@ -53,17 +57,10 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 }
 
 func (b *Blinky) Update() error {
-	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
-		b.Sprite = BlinkyPosRight2
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
-		b.Sprite = BlinkyPosUp2
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
-		b.Sprite = BlinkyPosDown2
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
-		b.Sprite = BlinkyPosLeft2
+	b.MovTicks++
+	b.Destination()
+	if b.MovTicks == 60 {
+		b.MovTicks = 0
 	}
 	return nil
 }
@@ -71,4 +68,33 @@ func (b *Blinky) Update() error {
 func (b *Blinky) Collider() rect.Rect {
 	bound := b.Sprite.Bounds()
 	return rect.NewRect(b.X, b.Y, float64(bound.Dx())*b.Scale, float64(bound.Dy())*b.Scale)
+}
+
+func (b *Blinky) MoveRight() {
+	b.X += 0.5
+}
+func (b *Blinky) MoveLeft() {
+	b.X -= 0.5
+}
+func (b *Blinky) MoveUp() {
+	b.Y -= 0.5
+}
+func (b *Blinky) MoveDown() {
+	b.Y += 0.5
+}
+
+func (b *Blinky) Destination() {
+	if b.Dir == global.RIGHT {
+		b.MoveRight()
+	}
+	if b.Dir == global.LEFT {
+		b.MoveLeft()
+	}
+	if b.Dir == global.UP {
+		b.MoveUp()
+	}
+	if b.Dir == global.DOWN {
+		b.MoveDown()
+	}
+
 }

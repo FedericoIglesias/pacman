@@ -69,16 +69,15 @@ func (s *Stage) Update() error {
 	for i, Dot := range s.Square.Dot {
 		if Dot != nil && s.Pacman.Collider().IntersectsGhost(Dot.Collider()) {
 			s.Square.Dot[i] = nil
-			// fmt.Print("Dot eaten")
 		}
 	}
 	// if s.Pacman.Collider().IntersectsGhost(s.Blinky.Collider()) {
 	// 	s.Pacman.Stop = s.Pacman.Dir
 	// }
 
-	// if err := s.Blinky.Update(); err != nil {
-	// 	return err
-	// }
+	if err := s.Blinky.Update(); err != nil {
+		return err
+	}
 
 	s.Pacman.Move()
 	return nil
