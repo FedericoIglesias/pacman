@@ -1,7 +1,6 @@
 package character
 
 import (
-	"fmt"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
@@ -16,6 +15,7 @@ type Blinky struct {
 	Dir, DirX, DirY string // direction
 	MovTicks        int
 	ForbidenMov     []string
+	PriorityMov     string
 }
 
 const (
@@ -62,13 +62,30 @@ func (b *Blinky) Update() error {
 	if b.MovTicks == 60 {
 		b.MovTicks = 0
 		b.CheckPosition()
+		b.CalculateDistance(rect.NewRect(b.X, b.Y, 0, 0))
 	}
+	b.Move()
 	return nil
 }
 
 func (b *Blinky) Collider() rect.Rect {
 	bound := b.Sprite.Bounds()
 	return rect.NewRect(b.X, b.Y, float64(bound.Dx())*b.Scale, float64(bound.Dy())*b.Scale)
+}
+
+func (b *Blinky) Move() {
+	if b.Dir == global.RIGHT {
+		b.MoveRight()
+	}
+	if b.Dir == global.LEFT {
+		b.MoveLeft()
+	}
+	if b.Dir == global.UP {
+		b.MoveUp()
+	}
+	if b.Dir == global.DOWN {
+		b.MoveDown()
+	}
 }
 
 func (b *Blinky) MoveRight() {
@@ -116,6 +133,11 @@ func (b *Blinky) CalculateDistance(objetive rect.Rect) {
 		b.DirY = global.DOWN
 	}
 
+	if distanceX > ditanceY {
+		b.PriorityMov = "X"
+	} else {
+		b.PriorityMov = "Y"
+	}
 }
 
 func (b *Blinky) CheckPosition() {
@@ -134,4 +156,13 @@ func (b *Blinky) CheckPosition() {
 	if global.STAGE_BYNARY[int(Y-1)][int(X)] == 1 {
 		b.ForbidenMov = append(b.ForbidenMov, global.UP)
 	}
+}
+
+func (b *Blinky) ChoseMov() {
+
+	if b.PriorityMov == "X" {
+
+	}
+
+	b.Dir = b.DirX || b.DirY
 }
