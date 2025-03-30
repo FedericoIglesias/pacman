@@ -38,3 +38,12 @@ var STAGE_BYNARY = [][]int32{ // width 19, height 21
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 }
+
+func Include(s []string, s2 string) bool {
+	for _, v := range s {
+		if v == s2 {
+			return true
+		}
+	}
+	return false
+}

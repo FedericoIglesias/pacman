@@ -44,7 +44,7 @@ func NewBlinky() (*Blinky, error) {
 		Y:        global.SIDE * 7,
 		Sprite:   BlinkyPosUp1,
 		Scale:    global.SCALE,
-		Dir:      global.RIGHT,
+		Dir:      global.LEFT,
 		MovTicks: 0,
 	}, nil
 }
@@ -58,11 +58,11 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 
 func (b *Blinky) Update() error {
 	b.MovTicks++
-	b.Destination()
 	if b.MovTicks == 60 {
 		b.MovTicks = 0
 		b.CheckPosition()
 		b.CalculateDistance(rect.NewRect(b.X, b.Y, 0, 0))
+		b.ChoseMov()
 	}
 	b.Move()
 	return nil
@@ -101,34 +101,20 @@ func (b *Blinky) MoveDown() {
 	b.Y += 0.5
 }
 
-func (b *Blinky) Destination() {
-	// if b.Dir == global.RIGHT {
-	// 	b.MoveRight()
-	// }
-	// if b.Dir == global.LEFT {
-	// 	b.MoveLeft()
-	// }
-	// if b.Dir == global.UP {
-	// 	b.MoveUp()
-	// }
-	// if b.Dir == global.DOWN {
-	// 	b.MoveDown()
-	// }
-
-}
-
 func (b *Blinky) CalculateDistance(objetive rect.Rect) {
 	distanceX := b.X - 0
 	ditanceY := b.Y - 0
 
 	if distanceX < 0 {
 		b.DirX = global.RIGHT
+		// distanceX = -distanceX
 	} else {
 		b.DirX = global.LEFT
 	}
 
 	if ditanceY < 0 {
 		b.DirY = global.UP
+		// ditanceY = -ditanceY
 	} else {
 		b.DirY = global.DOWN
 	}
@@ -141,6 +127,7 @@ func (b *Blinky) CalculateDistance(objetive rect.Rect) {
 }
 
 func (b *Blinky) CheckPosition() {
+	b.ForbidenMov = []string{}
 	X := b.X / global.SIDE
 	Y := b.Y / global.SIDE
 
@@ -156,13 +143,45 @@ func (b *Blinky) CheckPosition() {
 	if global.STAGE_BYNARY[int(Y-1)][int(X)] == 1 {
 		b.ForbidenMov = append(b.ForbidenMov, global.UP)
 	}
+
 }
 
 func (b *Blinky) ChoseMov() {
 
-	if b.PriorityMov == "X" {
-
+	if b.Dir == global.RIGHT {
+		b.ForbidenMov = append(b.ForbidenMov, global.LEFT)
+	}
+	if b.Dir == global.LEFT {
+		b.ForbidenMov = append(b.ForbidenMov, global.RIGHT)
+	}
+	if b.Dir == global.UP {
+		b.ForbidenMov = append(b.ForbidenMov, global.DOWN)
+	}
+	if b.Dir == global.DOWN {
+		b.ForbidenMov = append(b.ForbidenMov, global.UP)
 	}
 
-	b.Dir = b.DirX || b.DirY
+	if b.PriorityMov == "X" && !global.Include(b.ForbidenMov, b.DirX) {
+		b.Dir = b.DirX
+	}
+
+	if b.PriorityMov == "Y" && !global.Include(b.ForbidenMov, b.DirY) {
+		b.Dir = b.DirY
+	}
+
+	if global.Include(b.ForbidenMov, b.Dir) {
+		if !global.Include(b.ForbidenMov, global.DOWN) {
+			b.Dir = global.DOWN
+		}
+		if !global.Include(b.ForbidenMov, global.UP) {
+			b.Dir = global.UP
+		}
+		if !global.Include(b.ForbidenMov, global.LEFT) {
+			b.Dir = global.LEFT
+		}
+		if !global.Include(b.ForbidenMov, global.RIGHT) {
+			b.Dir = global.RIGHT
+		}
+	}
+	// b.Dir = b.DirX || b.DirY
 }
