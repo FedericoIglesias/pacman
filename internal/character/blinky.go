@@ -1,6 +1,7 @@
 package character
 
 import (
+	"fmt"
 	"pacMan/internal/global"
 	"pacMan/internal/img"
 	"pacMan/internal/rect"
@@ -110,15 +111,17 @@ func (b *Blinky) MoveDown() {
 func (b *Blinky) CalculateDistance(objetive rect.Rect) {
 	distanceX := b.X - objetive.X
 	ditanceY := b.Y - objetive.Y
-
+	fmt.Println(distanceX, ditanceY)
 	if distanceX < 0 {
 		b.DirX = global.RIGHT
+		distanceX = -distanceX
 	} else {
 		b.DirX = global.LEFT
 	}
 
 	if ditanceY < 0 {
 		b.DirY = global.DOWN
+		ditanceY = -ditanceY
 	} else {
 		b.DirY = global.UP
 	}
