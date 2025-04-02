@@ -16,6 +16,7 @@ type Blinky struct {
 	MovTicks        int
 	ForbidenMov     []string
 	PriorityMov     string
+	ToggleMov       int
 }
 
 const (
@@ -40,12 +41,13 @@ var (
 
 func NewBlinky() (*Blinky, error) {
 	return &Blinky{
-		X:        global.SIDE * 9,
-		Y:        global.SIDE * 7,
-		Sprite:   BlinkyPosUp1,
-		Scale:    global.SCALE,
-		Dir:      global.LEFT,
-		MovTicks: 0,
+		X:         global.SIDE * 9,
+		Y:         global.SIDE * 7,
+		Sprite:    BlinkyPosUp1,
+		Scale:     global.SCALE,
+		Dir:       global.LEFT,
+		MovTicks:  0,
+		ToggleMov: 1,
 	}, nil
 }
 
@@ -58,11 +60,15 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 
 func (b *Blinky) Update() error {
 	b.MovTicks++
+	if b.MovTicks == 30 {
+		b.SetSprite()
+	}
 	if b.MovTicks == 60 {
 		b.MovTicks = 0
 		b.CheckPosition()
 		b.CalculateDistance(rect.NewRect(b.X, b.Y, 0, 0))
 		b.ChoseMov()
+		b.SetSprite()
 	}
 	b.Move()
 	return nil
@@ -178,6 +184,45 @@ func (b *Blinky) ChoseMov() {
 		}
 		if !global.Include(b.ForbidenMov, global.RIGHT) {
 			b.Dir = global.RIGHT
+		}
+	}
+}
+
+func (b *Blinky) SetSprite() {
+	if b.Dir == global.RIGHT {
+		if b.ToggleMov == 1 {
+			b.Sprite = BlinkyPosRight1
+			b.ToggleMov = 2
+		} else {
+			b.Sprite = BlinkyPosRight2
+			b.ToggleMov = 1
+		}
+	}
+	if b.Dir == global.LEFT {
+		if b.ToggleMov == 1 {
+			b.Sprite = BlinkyPosLeft1
+			b.ToggleMov = 2
+		} else {
+			b.Sprite = BlinkyPosLeft2
+			b.ToggleMov = 1
+		}
+	}
+	if b.Dir == global.UP {
+		if b.ToggleMov == 1 {
+			b.Sprite = BlinkyPosUp1
+			b.ToggleMov = 2
+		} else {
+			b.Sprite = BlinkyPosUp2
+			b.ToggleMov = 1
+		}
+	}
+	if b.Dir == global.DOWN {
+		if b.ToggleMov == 1 {
+			b.Sprite = BlinkyPosDown1
+			b.ToggleMov = 2
+		} else {
+			b.Sprite = BlinkyPosDown2
+			b.ToggleMov = 1
 		}
 	}
 }
