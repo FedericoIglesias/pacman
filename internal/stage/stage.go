@@ -34,37 +34,19 @@ func NewMap() (*Stage, error) {
 func (s *Stage) Draw(screen *ebiten.Image) {
 	s.Square.Draw(screen)
 
-	// s.Pacman.Draw(screen)
+	s.Pacman.Draw(screen)
 	s.Blinky.Draw(screen)
 }
 
-// func MakeStage() [][]Square {
-// 	st := [][]Square{}
-// 	SquareWidth := global.SCREEN_WIDTH / len(global.STAGE_1[0]) //31
-// 	SquareHeight := global.SCREEN_HEIGHT / len(global.STAGE_1)  // 27
-// 	fmt.Printf("SquareWidth: %v\n", SquareWidth)
-// 	fmt.Printf("SquareHeight: %v\n", SquareHeight)
-// 	for row := 0; row < len(global.STAGE_1); row++ {
-// 		newRow := []Square{}
-// 		for col := 0; col < len(global.STAGE_1[row]); col++ {
-// 			isWall := global.STAGE_1[row][col] == "b"
-// 			square := NewSquare(isWall, SquareWidth, SquareHeight, col*SquareWidth, row*SquareHeight)
-// 			newRow = append(newRow, *square)
-// 		}
-// 		st = append(st, newRow)
-// 	}
-// 	return st
-// }
-
 func (s *Stage) Update() error {
-	s.Pacman.Stop = ""
+
 	if err := s.Pacman.Update(); err != nil {
 		return err
 	}
 	for _, Wall := range s.Square.Wall {
-		// if s.Pacman.Collider().IntersectsWall(Wall.Collider(), s.Pacman.Dir) {
-		// 	s.Pacman.Stop = s.Pacman.Dir
-		// }
+		if s.Pacman.Collider().IntersectsWall(Wall.Collider(), s.Pacman.Dir) {
+			s.Pacman.Stop = s.Pacman.Dir
+		}
 		s.Blinky.Collider().IntersectsSquare(Wall.Collider(), s.Blinky.Dir)
 	}
 	for i, Dot := range s.Square.Dot {
@@ -76,7 +58,7 @@ func (s *Stage) Update() error {
 	// 	s.Pacman.Stop = s.Pacman.Dir
 	// }
 
-	if err := s.Blinky.Update(); err != nil {
+	if err := s.Blinky.Update(s.Pacman.Collider()); err != nil {
 		return err
 	}
 

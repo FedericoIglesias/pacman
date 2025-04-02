@@ -60,6 +60,7 @@ func (p *Pacman) Draw(screen *ebiten.Image) {
 }
 
 func (p *Pacman) Update() error {
+	p.Stop = ""
 	p.TimerShow.Update()
 
 	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) {

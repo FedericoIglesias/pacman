@@ -58,15 +58,15 @@ func (b *Blinky) Draw(screen *ebiten.Image) {
 	screen.DrawImage(b.Sprite, op)
 }
 
-func (b *Blinky) Update() error {
+func (b *Blinky) Update(objetive rect.Rect) error {
 	b.MovTicks++
 	if b.MovTicks == 30 {
 		b.SetSprite()
 	}
 	if b.MovTicks == 60 {
 		b.MovTicks = 0
+		b.CalculateDistance(objetive)
 		b.CheckPosition()
-		b.CalculateDistance(rect.NewRect(b.X, b.Y, 0, 0))
 		b.ChoseMov()
 		b.SetSprite()
 	}
@@ -108,8 +108,8 @@ func (b *Blinky) MoveDown() {
 }
 
 func (b *Blinky) CalculateDistance(objetive rect.Rect) {
-	distanceX := b.X - 600
-	ditanceY := b.Y - 0
+	distanceX := b.X - objetive.X
+	ditanceY := b.Y - objetive.Y
 
 	if distanceX < 0 {
 		b.DirX = global.RIGHT
