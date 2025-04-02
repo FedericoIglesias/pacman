@@ -102,21 +102,19 @@ func (b *Blinky) MoveDown() {
 }
 
 func (b *Blinky) CalculateDistance(objetive rect.Rect) {
-	distanceX := b.X - 0
+	distanceX := b.X - 600
 	ditanceY := b.Y - 0
 
 	if distanceX < 0 {
 		b.DirX = global.RIGHT
-		// distanceX = -distanceX
 	} else {
 		b.DirX = global.LEFT
 	}
 
 	if ditanceY < 0 {
-		b.DirY = global.UP
-		// ditanceY = -ditanceY
-	} else {
 		b.DirY = global.DOWN
+	} else {
+		b.DirY = global.UP
 	}
 
 	if distanceX > ditanceY {
@@ -143,7 +141,6 @@ func (b *Blinky) CheckPosition() {
 	if global.STAGE_BYNARY[int(Y-1)][int(X)] == 1 {
 		b.ForbidenMov = append(b.ForbidenMov, global.UP)
 	}
-
 }
 
 func (b *Blinky) ChoseMov() {
@@ -183,5 +180,4 @@ func (b *Blinky) ChoseMov() {
 			b.Dir = global.RIGHT
 		}
 	}
-	// b.Dir = b.DirX || b.DirY
 }
